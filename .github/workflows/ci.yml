@@ -10,69 +10,69 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Bucket
-        uses: actions/checkout@main
-      - name: Install Flatpack
-        run: |
-          sudo add-apt-repository --yes ppa:flatpak/stable
-          sudo apt update --yes
-          sudo apt install --yes flatpak
-          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-          sudo flatpak install -y flathub org.freedesktop.Platform//22.08 org.freedesktop.Sdk//22.08
-      - name: Build package
-        run: flatpak-builder build-dir org.pact.pact.yml
-      - name: Build and install as user
-        run: flatpak-builder --user --install --force-clean build-dir org.pact.pact.yml
-      - name: Test scripts
-        run: |
-          flatpak run org.pact.pact pact --help
-          flatpak run org.pact.pact pact-broker --help
-          flatpak run org.pact.pact pact-message --help
-          flatpak run org.pact.pact pact-mock-service --help
-          flatpak run org.pact.pact pact-plugin-cli --help
-          flatpak run org.pact.pact pact-provider-verifier --help
-          flatpak run org.pact.pact pact-stub-service --help
-          flatpak run org.pact.pact pactflow --help
-          flatpak run org.pact.pact pact_mock_server_cli --help
-          flatpak run org.pact.pact pact_verifier_cli --help
-  # flatpak:
-  #   name: "Flatpak"
+  # test:
   #   runs-on: ubuntu-latest
-  #   container:
-  #     image: bilelmoussaoui/flatpak-github-actions:gnome-44
-  #     options: --privileged
-  #   strategy:
-  #     matrix:
-  #       arch: [x86_64, aarch64]
-  #     fail-fast: false
   #   steps:
-  #   - uses: actions/checkout@v3
-  #   - name: Install deps
-  #     run: |
-  #       dnf -y install docker
-  #   - name: Set up QEMU
-  #     id: qemu
-  #     uses: docker/setup-qemu-action@v2
-  #     with:
-  #       platforms: arm64
-  #   - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-  #     with:
-  #       bundle: pact.flatpak
-  #       manifest-path: org.pact.pact.yml
-  #       cache-key: flatpak-builder-${{ github.sha }}
-  #       arch: ${{ matrix.arch }}
-  #   - name: Test scripts
-  #     run: |
-  #       flatpak run org.pact.pact pact --help
-  #       flatpak run org.pact.pact pact-broker --help
-  #       flatpak run org.pact.pact pact-message --help
-  #       flatpak run org.pact.pact pact-mock-service --help
-  #       flatpak run org.pact.pact pact-plugin-cli.exe --help
-  #       flatpak run org.pact.pact pact-provider-verifier --help
-  #       flatpak run org.pact.pact pact-stub-service --help
-  #       flatpak run org.pact.pact pactflow --help
-  #       flatpak run org.pact.pact pact_mock_server_cli.exe --help
-  #       flatpak run org.pact.pact pact_verifier_cli.exe --help
+  #     - name: Checkout Bucket
+  #       uses: actions/checkout@main
+  #     - name: Install Flatpack
+  #       run: |
+  #         sudo add-apt-repository --yes ppa:flatpak/stable
+  #         sudo apt update --yes
+  #         sudo apt install --yes flatpak
+  #         sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  #         sudo flatpak install -y flathub org.freedesktop.Platform//22.08 org.freedesktop.Sdk//22.08
+  #     - name: Build package
+  #       run: flatpak-builder build-dir org.pact.pact.yml
+  #     - name: Build and install as user
+  #       run: flatpak-builder --user --install --force-clean build-dir org.pact.pact.yml
+  #     - name: Test scripts
+  #       run: |
+  #         flatpak run org.pact.pact pact --help
+  #         flatpak run org.pact.pact pact-broker --help
+  #         flatpak run org.pact.pact pact-message --help
+  #         flatpak run org.pact.pact pact-mock-service --help
+  #         flatpak run org.pact.pact pact-plugin-cli --help
+  #         flatpak run org.pact.pact pact-provider-verifier --help
+  #         flatpak run org.pact.pact pact-stub-service --help
+  #         flatpak run org.pact.pact pactflow --help
+  #         flatpak run org.pact.pact pact_mock_server_cli --help
+  #         flatpak run org.pact.pact pact_verifier_cli --help
+  flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-44
+      options: --privileged
+    strategy:
+      matrix:
+        arch: [x86_64, aarch64]
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install deps
+      run: |
+        dnf -y install docker
+    - name: Set up QEMU
+      id: qemu
+      uses: docker/setup-qemu-action@v2
+      with:
+        platforms: arm64
+    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      with:
+        bundle: pact.flatpak
+        manifest-path: org.pact.pact.yml
+        cache-key: flatpak-builder-${{ github.sha }}
+        arch: ${{ matrix.arch }}
+    - name: Test scripts
+      run: |
+        flatpak run org.pact.pact pact --help
+        flatpak run org.pact.pact pact-broker --help
+        flatpak run org.pact.pact pact-message --help
+        flatpak run org.pact.pact pact-mock-service --help
+        flatpak run org.pact.pact pact-plugin-cli.exe --help
+        flatpak run org.pact.pact pact-provider-verifier --help
+        flatpak run org.pact.pact pact-stub-service --help
+        flatpak run org.pact.pact pactflow --help
+        flatpak run org.pact.pact pact_mock_server_cli.exe --help
+        flatpak run org.pact.pact pact_verifier_cli.exe --help
