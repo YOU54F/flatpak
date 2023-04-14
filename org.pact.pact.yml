@@ -1,0 +1,61 @@
+app-id: org.pact.pact
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+command: run.sh
+modules:
+  - name: run
+    buildsystem: simple
+    build-commands:
+      - install -D run.sh /app/bin/run.sh
+    sources:
+      - type: file
+        path: run.sh
+  - name: pact_ruby_standalone
+    buildsystem: simple
+    build-commands:
+      - "mkdir -p /app/bin"
+      - "mkdir -p /app/lib"
+      - mv bin/* /app/bin
+      - mv lib/* /app/lib
+    sources:
+      - type: archive
+        url: https://github.com/you54f/pact-ruby-standalone/releases/download/v3.1.0/pact-3.1.0-linux-arm64.tar.gz
+        sha256: 41b271ca318f17ba90e6014d54226021526066e43ddad5e270e31522ef200720
+        only-arches: [aarch64,arm64]
+      - type: archive
+        url: https://github.com/you54f/pact-ruby-standalone/releases/download/v3.1.0/pact-3.1.0-linux-x86_64.tar.gz.checksum
+        sha1: 005e63da368c49373b6fefd3148fe9985e0f7b61
+        only-arches: [x86_64]
+  - name: pact_verifier_cli
+    buildsystem: simple
+    build-commands:
+      - gunzip "pact_verifier_cli.gz"
+      - install -D pact_verifier_cli /app/bin/pact_verifier_cli
+    sources:
+      - type: file
+        url: https://github.com/pact-foundation/pact-reference/releases/download/pact_verifier_cli-v0.10.5/pact_verifier_cli-linux-aarch64.gz
+        sha256: 48a5d6bbc5471764e77027eaf42f62f812849b083e267be2cb8ed9d36cc862bf
+        dest-filename: pact_verifier_cli.gz
+        only-arches: [aarch64,arm64]
+      - type: file
+        url: https://github.com/pact-foundation/pact-reference/releases/download/pact_verifier_cli-v0.10.5/pact_verifier_cli-linux-x86_64.gz
+        sha256: 8426c38ca361613bc4df649f14e40c9c3609672b56797e3c487aba2860c5040d
+        dest-filename: pact_verifier_cli.gz
+        only-arches: [x86_64]
+  - name: pact_mock_server_cli
+    buildsystem: simple
+    build-commands:
+      - gunzip "pact_mock_server_cli.gz"
+      - install -D pact_mock_server_cli /app/bin/pact_mock_server_cli
+    sources:
+      - type: file
+        url: https://github.com/pact-foundation/pact-reference/releases/download/pact_mock_server_cli-v1.0.0/pact_mock_server_cli-linux-aarch64.gz
+        sha256: 3445c2109ec1fc7a58d012c5a851f67203a6b19e3ef7f21d09fdac6b3d140f30
+        dest-filename: pact_mock_server_cli.gz
+        only-arches: [aarch64,arm64]
+      - type: file
+        url: https://github.com/pact-foundation/pact-reference/releases/download/pact_mock_server_cli-v1.0.0/pact_mock_server_cli-linux-x86_64.gz
+        sha256: f07fe85eab349d9d8f6f60faffb8d4af02d8d0bbe8e7a756b6b5e136a837cd92
+        dest-filename: pact_mock_server_cli.gz
+        only-arches: [x86_64]
