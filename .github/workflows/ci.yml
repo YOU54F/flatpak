@@ -60,7 +60,6 @@ jobs:
         platforms: arm64
     - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
       with:
-        bundle: pact.flatpak
         manifest-path: org.pact.pact.yml
         cache-key: flatpak-builder-${{ github.sha }}
         arch: ${{ matrix.arch }}
