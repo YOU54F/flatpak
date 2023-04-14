@@ -20,6 +20,7 @@ jobs:
           sudo add-apt-repository --yes ppa:flatpak/stable
           sudo apt update --yes
           sudo apt install --yes flatpak
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
           sudo flatpak install flathub org.freedesktop.Platform//22.08 org.freedesktop.Sdk//22.08
       - name: Build package
         run: flatpak-builder build-dir org.pact.pact.yml
