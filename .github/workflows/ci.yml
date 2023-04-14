@@ -64,6 +64,10 @@ jobs:
         manifest-path: org.pact.pact.yml
         cache-key: flatpak-builder-${{ github.sha }}
         arch: ${{ matrix.arch }}
+    - name: 
+      run: |
+        flatpak --user remote-add --no-gpg-verify pact repo
+        flatpak --user install pact org.pact.pact
     - name: Test scripts
       run: |
         flatpak run org.pact.pact pact --help
