@@ -24,7 +24,7 @@ modules:
         sha256: 41b271ca318f17ba90e6014d54226021526066e43ddad5e270e31522ef200720
         only-arches: [aarch64,arm64]
       - type: archive
-        url: https://github.com/you54f/pact-ruby-standalone/releases/download/v3.1.0/pact-3.1.0-linux-x86_64.tar.gz.checksum
+        url: https://github.com/you54f/pact-ruby-standalone/releases/download/v3.1.0/pact-3.1.0-linux-x86_64.tar.gz
         sha1: add4e3b8b5909554ac6199475813d69bd388230d
         only-arches: [x86_64]
   - name: pact_verifier_cli
